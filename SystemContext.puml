@@ -1,0 +1,37 @@
+@startuml libGDX system context
+!include <C4/C4_Container>
+
+SHOW_PERSON_OUTLINE()
+
+title System Context Model
+
+System(libGDX, "libGDX", "a free and open-source game-development application framework written in Java")
+
+Person(devs, "Developers", "using the libGDX framework to develop games")
+Person(contributors, "Contributors", "contrubuting towards libGDX's functionality")
+
+System_Ext(junit, "Junit", "Library used for testing")
+System_Ext(gdx_jnigen_loader, "gdx-jnigen-loader", "Loads shared libraries from a natives jar file (desktop) or arm folders (Android)")
+System_Ext(androidx, "androidx", "API for creating android systems")
+System_Ext(gwt, "gwt libraries", "Libraries and API's used by gwt-based components")
+System_Ext(robovm, "RoboVM", "An ahead-of-time compiler for Java bytecode, targeting Linux, Mac OS X and iOS")
+System_Ext(javaparser, "javaparser", "Contains a set of libraries implementing a Java 1.0 - Java 18 Parser with advanced analysis functionalities")
+System_Ext(gradle, "Gradle", "Deploy and build projects")
+System_Ext(lwjgl, "lwjgl libraries", "Lightweight Java Game Library and more")
+System_Ext(junit, "Junit", "Library used for testing")
+
+Rel(devs, libGDX, "Uses")
+Rel(contributors, libGDX, "Develops")
+Rel(libGDX, gradle, "Uses", "Deployment")
+Rel(libGDX, lwjgl, "Uses", "Tool")
+Rel(libGDX, gwt, "Uses", "Tool")
+Rel(libGDX, junit, "Uses", "Testing")
+Rel(libGDX, gdx_jnigen_loader, "Uses", "Tool")
+Rel(libGDX, androidx, "Uses", "Tool")
+Rel(libGDX, robovm, "Uses", "Tool")
+Rel(libGDX, javaparser, "Uses", "Tool")
+
+
+SHOW_LEGEND()
+
+@enduml

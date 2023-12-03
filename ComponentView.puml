@@ -1,0 +1,165 @@
+@startuml libGDX container context
+!include <C4/C4_Container>
+
+SHOW_PERSON_OUTLINE()
+
+title System Context Model
+
+
+System_Boundary(libGDX, "libGDX") {
+    'Here should be all the things that are included in libGDX
+    'Container(backends, "Backends", "", "Backends for each operating system")
+    
+    Boundary(backends, "Backends", "Backends for each operating system") {
+        'Different backend modules
+        Container(gdx_backends_android, "Android backend", "", "Backend for android")
+        Container(gdx_backends_headless, "Headless backend", "", "Backend for headless systems")
+        Container(gdx_backends_lwjgl, "lwjgl backend", "", "Backend for windows, Mac and Linux")
+        Container(gdx_backends_lwjgl3, "lwjgl3 backend", "", "Newer backend for windows, Mac and Linux")
+        Container(gdx_backends_robovm, "robovm backend", "", "Backend for iOS, Linux and Mac OS X")
+        Container(gdx_backends_robovm_metalangle, "robovm-metalangle backend", "", "Newer version backend for iOS, Linux and Mac OS X")
+        Container(gdx_backends_gwt, "gwt backend", "", "Backend for browser")
+    }
+
+    'Different extension modules
+    'Container(extensions, "Extensions", "")
+    Boundary(extensions, "Extensions", "Extensions") {
+        
+        'box2d has 2 child modules
+        'Container(gdx_box2d, "box2d (parent)", "")
+        Boundary(gdx_box2d, "Box2d", "Box2d") {
+            Container(gdx_box2d_box2d, "box2d", "")
+            Container(gdx_box2d_gwt, "box2d gwt", "")
+        }
+
+        Container(gdx_bullet, "bullet", "")
+        Container(gdx_freetype, "freetype", "")
+        Container(gdx_lwjgl3_angle, "lwjgl3-angle", "")
+        Container(gdx_lwjgl3_angle_awt_macos, "lwjgl3-angle-awt-macos", "")
+        Container(gdx_setup, "setup", "")
+        Container(gdx_tools, "tools", "")
+    }
+
+    Container(gdx, "gdx", "Libraries", "Libraries containing visual and audion features")
+
+    'Container(tests, "Tests", "Testing different features")
+    Boundary(tests, "Tests", "Testing different features") {
+        'Different test modules
+        Container(gdx_tests_android, "Android tests", "")
+        Container(gdx_tests_gwt, "gwt tests", "")
+        Container(gdx_tests_iosrobovm, "(iOS)robovm tests", "")
+        Container(gdx_tests_lwjgl, "lwjgl tests", "")
+        Container(gdx_tests_lwjgl3, "lwjgl3 tests", "")
+        Container(gdx_tests, "gdx tests", "")
+    }
+    
+}
+
+Person(contributers, "Contributer", "Community contributor of libGDX")
+Person(game_developer, "Game Developer", "Persona that is building a game")
+
+System_Ext(junit, "Junit", "Library used for testing")
+System_Ext(gdx_jnigen_loader, "gdx-jnigen-loader", "Loads shared libraries from a natives jar file (desktop) or arm folders (Android)")
+System_Ext(androidx, "androidx", "API for creating android systems")
+'System_Ext(jsinterop, "JsInterop Annotations", "A set of java annotations that drive the javascript code generation of gwt")
+'System_Ext(gwt, "gwt", "Write client-side applications in Java and deploy them as JavaScript")
+'Combined ^
+System_Ext(gwt_lib, "gwt libraries", "Libraries and API's used by gwt-based components")
+
+'System_Ext(lwjgl, "lwjgl(3)", "Lightweight Java Game Library")
+'System_Ext(jlayer, "JLayer (gdx)", "Universal decorator for Swing components, specialized for libgdx")
+'System_Ext(jorbis, "jorbis", "JOrbis accepts Ogg Vorbis bitstreams and decodes them to raw PCM")
+System_Ext(lwjgl_lib, "lwjgl libraries", "Libraries and API's used by lwjgl-based components")
+
+System_Ext(robovm, "RoboVM", "An ahead-of-time compiler for Java bytecode, targeting Linux, Mac OS X and iOS")
+System_Ext(javaparser, "javaparser", "Contains a set of libraries implementing a Java 1.0 - Java 18 Parser with advanced analysis functionalities")
+System_Ext(gradle, "Gradle", "Deploy and build projects")
+
+
+'Relation gdx_backends_### --> tools
+Rel(gdx_backends_android, gdx, "Uses")
+Rel(gdx_backends_android, androidx, "Uses")
+
+Rel(gdx_backends_gwt, gdx, "Uses")
+Rel(gdx_backends_gwt, gwt_lib, "Uses")
+
+Rel(gdx_backends_headless, gdx, "Uses")
+
+Rel(gdx_backends_lwjgl, gdx, "Uses")
+Rel(gdx_backends_lwjgl, lwjgl_lib, "Uses")
+
+Rel(gdx_backends_lwjgl3, gdx, "Uses")
+Rel(gdx_backends_lwjgl3, lwjgl_lib, "Uses")
+
+
+Rel(gdx_backends_robovm, gdx, "Uses")
+Rel(gdx_backends_robovm, robovm, "Uses")
+
+Rel(gdx_backends_robovm_metalangle, gdx, "Uses")
+Rel(gdx_backends_robovm_metalangle, robovm, "Uses")
+Rel(gdx_backends_robovm_metalangle, javaparser, "Uses")
+
+
+
+
+'Relation gdx_### --> tools
+Rel(gdx_bullet, gdx, "Uses")
+
+Rel(gdx_freetype, gdx, "Uses")
+
+Rel(gdx_lwjgl3_angle, gdx, "Uses")
+Rel(gdx_lwjgl3_angle, lwjgl_lib, "Uses")
+
+Rel(gdx_lwjgl3_angle_awt_macos, gdx, "Uses")
+
+Rel(gdx_tools, gdx_backends_lwjgl, "Uses")
+Rel(gdx_tools, gdx_freetype, "Uses")
+Rel(gdx_tools, gdx_backends_headless, "Uses")
+
+Rel(gdx_tests, gdx_box2d, "Uses")
+Rel(gdx_tests, gdx_bullet, "Uses")
+Rel(gdx_tests, gdx_freetype, "Uses")
+
+
+'Relation gdx_tests_### --> tools
+Rel(gdx_tests_gwt, gwt, "Uses")
+'javax.servlet:javax.servlet-api:3.1.0
+'javax.websocket:javax.websocket-api:1.0
+'org.gwtproject:gwt-codeserver:2.10.0
+Rel(gdx_tests_gwt, gdx_tests, "Uses")
+Rel(gdx_tests_gwt, gdx_backends_gwt, "Uses")
+Rel(gdx_tests_gwt, gdx_box2d, "Uses")
+'org.gretty:gretty-runner-jetty10:3.1.0
+'org.springframework:springloaded:1.2.8.RELEASE
+'org.codehaus.groovy:groovy-cli-commons:3.0.17
+
+Rel(gdx_tests_iosrobovm, gdx_tests, "Uses")
+Rel(gdx_tests_iosrobovm, gdx_backends_robovm, "Uses")
+
+Rel(gdx_tests_lwjgl, gdx_tests, "Uses")
+Rel(gdx_tests_lwjgl, gdx_backends_lwjgl, "Uses")
+
+Rel(gdx_tests_lwjgl3, gdx_tests, "Uses")
+Rel(gdx_tests_lwjgl3, gdx_backends_lwjgl3, "Uses")
+Rel(gdx_tests_lwjgl3, gdx_lwjgl3_angle, "Uses")
+Rel(gdx_tests_lwjgl3, gdx_lwjgl3_angle_awt_macos, "Uses")
+
+'Relations gdx_box2d_### --> tools
+Rel(gdx_box2d_box2d, gdx, "Uses")
+
+Rel(gdx_box2d_gwt, gdx, "Uses")
+Rel(gdx_box2d_gwt, gwt_lib, "Uses")
+
+'Relations gdx --> tools
+Rel(gdx, gdx_jnigen_loader, "Uses")
+Rel(gdx, junit, "Uses", "Testing")
+
+
+Rel(game_developer, backends, "Builds on", "Integration")
+Rel(contributers, libGDX, "Develops")
+
+Rel(libGDX, gradle, "Uses", "Building")
+
+SHOW_LEGEND()
+
+@enduml
